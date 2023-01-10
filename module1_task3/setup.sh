@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Productions Instructions
+## Production Instructions
 
-#* The production website is hosted on Ubuntu 18.04 Docker Conteiner
+#* The production website is hosted in an Ubuntu 18.04 Docker container
 #* The applications "GoHugo" and "Make" are installed with `apt-get update && apt-get install -y hugo make`.
 apt-get update && apt-get install -y hugo make
-# Put your root password and when runs the command make build, there is a buch of errors that ends in the follow line
+#* When running the command `make build`, there is a bunch of errors which end with the following lines:
 make build
