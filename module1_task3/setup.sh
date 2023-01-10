@@ -7,3 +7,4 @@
 apt-get update && apt-get install -y hugo make
 # Put your root password and when runs the command make build, there is a buch of errors that ends in the follow line
 make build
+
