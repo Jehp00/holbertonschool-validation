@@ -5,7 +5,7 @@ on:
       - main
 
   schedule:
-    - cron: '10 10 * * *'
+    - cron: '0 0 * * *'
 
 jobs:
   building_make:

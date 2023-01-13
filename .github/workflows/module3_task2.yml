@@ -1,0 +1,20 @@
+name: module3_task1
+on:
+  push:
+  schedule:
+    - cron: '10 10 * * *'
+jobs:
+  building:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - run: sudo module3_task2/setup.sh
+      - run: cd module3_task2 && make build
+      - run: cd module3_task2 && make package
+      - run: cd module3_task2 && make lint
+      - run: cd module3_task2 && make unit-tests
+      - run: cd module3_task2 && make integration-tests
+      - run: cd module3_task2 && make validate
+      - uses: actions/upload-artifact@v3
+        with:
+          path: module3_task2/awesome-website.zip
