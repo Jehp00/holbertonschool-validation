@@ -1,21 +1,15 @@
 name: module3_task0
 on:
   push:
+    branches: 
+      - main
 
   schedule:
-    - cron: "0 6 * * *"
+    - cron: '10 10 * * *'
 
 jobs:
-  clone:
-
-    runs-on: ubuntu-latest
-
+  building:
+    runs-on: ubuntu-20.04
     steps:
-      - name: Clone GuillaumeFalourd/poc-github-actions PUBLIC repository
-        uses: GuillaumeFalourd/clone-github-repo-action@v2
-        with:
-          owner: 'alejandrodgz'
-          repository: 'holbertonschool-validation'
-      - name: Install Composer Dependencies
-        working-directory: ./holbertonschool-validation/module3_task0
-        run: make help
+      - uses: actions/checkout@v3
+      - run: cd module3_task0 && make help
