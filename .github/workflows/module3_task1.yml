@@ -8,7 +8,7 @@ on:
     - cron: '10 10 * * *'
 
 jobs:
-  building:
+  building_make:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v3
