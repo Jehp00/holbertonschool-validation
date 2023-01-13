@@ -1,19 +1,11 @@
 name: module3_task0
 on:
   push:
-
   schedule:
-    - cron: '0 6 * * *'
-
+    - cron: '10 10 * * *'
 jobs:
-  clone:
+  building:
     runs-on: ubuntu-latest
     steps:
-      - name: Cloning PUBLIC repository
-        uses: GuillaumeFalourd/clone-github-repo-action@v2
-        with:
-          owner: Jehp00
-          repository: 'holbertonschool-validation'
-      - name: Installation Compser Dependencies
-        working-directory: ./holbertonschool-validation/module3_task0
-        run: make help
+      - uses: actions/checkout@v3
+      - run: cd module3_task0 && make help
