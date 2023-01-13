@@ -1,5 +1,4 @@
 name: module3_task0
-
 on:
   push:
 
@@ -12,3 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: cd module3_task0 && make help
+    
