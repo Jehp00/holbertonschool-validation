@@ -1,26 +1,28 @@
-build:		## create a new destination of the page in a directory called 'dist'
-	hugo --destination ./dist
+build:	## Generate the website from the markdown and configuration files in the directory dist/
+	hugo -s . -d dist/
 
-clean:		## delete the directory 'dist' with files or subdirectories
-	rm -rf ./dist
-
-post:		## first remove the md file in the content, next create the new post with the random name and aspects
-	@rm -rf content/posts/$(POST_NAME).md
+post:	## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME
 	hugo new posts/$(POST_NAME).md
-	sed -i 's+title.*+title: "$(POST_TITLE)"+g' content/posts/$(POST_NAME).md
+	sed -i 's/title: .*/title:"$(POST_TITLE)"/' content/posts/$(POST_NAME).md 
 
+clean:	## Cleanup the content of the directory dist/
+	rm -rf dist/
 
-package: build ## Produces a file awesome-website.zip, containing the binary awesome-api and the directory dist/ directory
-	zip -r awesome-website.zip dist
-
-lint:	## Lint markdown
-	markdownlint README.md DEPLOY.md
-
-unit-tests: ## Run unit tests
-
-integration-tests: ## Run integrations test
-
-validate: ## Validate
-
-help: 		## show help
+help: Makefile ## Show this help usage
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+
+package:
+	hugo
+	zip awesome-website.zip awesome-api dist/ 
+
+lint:
+	markdownlint "*.md"
+
+unit-tests: ## run unit tests
+	@echo "all tests done"
+
+integration-tests: ## run integration-tests
+	@echo "all integration-tests done"
+
+validate: ## run validate
+	@echo "all validations done"

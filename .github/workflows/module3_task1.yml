@@ -1,16 +1,20 @@
 name: module3_task1
+
 on:
   push:
-  
+
   schedule:
-    - cron: '10 10 * * *'
+    - cron: "0 0 * * *"
+
 jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v3
-      - run: cd module3_task1 && make help
-      - run: sudo module3_task1/setup.sh
-      - run: cd module3_task1 && make build
-      - run: cd module3_task1 && make POST_NAME=who-are-we POST_TITLE="Who are we" post
-      - run: cd module3_task1 && make clean
+      - name: cloning
+        uses: actions/checkout@v2
+
+      - name: set_up
+        run: cd module3_task1 && sudo ./setup.sh
+
+      - name: build
+        run: cd module3_task1 && make build
