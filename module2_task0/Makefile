@@ -12,7 +12,7 @@ stop: ## Stop the application with the command kill
 
 clean: stop ## Cleanup the content of the 'dist/' folder
 	@rm -Rf dist/*
-	@rm -f awesome-api awesome.log || true
+	@rm -Rf awesome-api awesome.log || true
 
 test: ## Ensure that it behaves as expected
 	@echo "# Test 1:"
