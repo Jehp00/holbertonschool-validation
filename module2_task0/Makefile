@@ -5,14 +5,14 @@ build: ## Generate the website from markdown and config files in the 'dist/' fol
 	@go build -o awesome-api ./*.go
 
 run: ## Run the application in background
-	@./awesome-api >./awesome-api.log 2>&1 &
+	@./awesome-api >./awesome.log 2>&1 &
 
 stop: ## Stop the application with the command kill
 	@pkill awesome-api
 
 clean: stop ## Cleanup the content of the 'dist/' folder
 	@rm -Rf dist/*
-	@rm -f awesome-api awesome-api.log || true
+	@rm -f awesome-api awesome.log || true
 
 test: ## Ensure that it behaves as expected
 	@echo "# Test 1:"
