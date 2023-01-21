@@ -1,68 +1,89 @@
-name: module3_task5
+---
+# Safer Collaboration with Pull Requests
+
+name: module4_task0
+
+# Controls when the workflow will run
 on:
+  # Triggers of the workflow
   push:
-    branches:
-      - main
+    branches: [master, main]
+    # paths:
+    # - 'module4_task0/**'
     tags:
-      - "1.0.1"
+      - '*.*.*'
   schedule:
     - cron: '0 0 * * *'
+
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened, edited, ready_for_review]
 
-permissions: read-all
-
+# Jobs has eight steps
 jobs:
-  builds:
-    name: jobs
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
     runs-on: ubuntu-18.04
 
+    # Steps represent sequence of tasks that will be executed as par of the job
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - run: sudo module3_task5/setup.sh
-      - name: install markdown
-        run: npm install -g markdownlint-cli
-
-      - run: cd module3_task5 && make help
-      - run: cd module3_task5 && make build
-      - run: cd module3_task5 && make clean
-      - run: cd module3_task5 && make build
-      - run: cd module3_task5 && make post POST_NAME="name" POST_TITLE="title"
-      - run: cd module3_task5 && make lint
-      - run: cd module3_task5 && make package
-      - run: cd module3_task5 && make unit-tests
-      - run: cd module3_task5 && make integration-tests
-      - run: cd module3_task5 && make validate
-      - name: Checkout
+      # Checks-out your repository under $GITHUB_WORKSPACE
+      # so the job can access it
+      - name: Clone the repository
         uses: actions/checkout@v3
-      - name: Release
+
+      # Ensure all the required tools are installed prior to any make target
+      - name: Execute the script setup.sh
+        run: |
+          cd module4_task0/
+          ./setup.sh
+
+      # Check syntax on markdown files
+      - name: Run markdownlint on markdown files
+        run: make lint -C module4_task0/
+
+      # Go to the right folder and execute 'make build'
+      - name: Build the application
+        run: make build -C module4_task0/
+
+      # Produce a zip file containing the dist folder
+      - name: Archive the dist folder inside a zip file
+        run: make package -C module4_task0/
+
+      # Additional steps form past module
+      - name: Run additional make rules
+        run: |
+          make unit-tests -C module4_task0/
+          make integration-tests -C module4_task0/
+          make validate -C module4_task0/
+
+      # Archive the zip file as artifact
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: Archive awesome-website.zip as artifact
+          path: module4_task0/awesome-website.zip
+
+      # Generate a release with the archive and the content of DEPLOY.md
+      - name: Create a GitHub Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/1.0.1')
+        # if: github.event.pull_request
+        if: startsWith(github.ref, 'refs/tags/')
         with:
+          # tag_name: 1.0.xx
           files: |
-            awesome-website.zip
-            DEPLOY.md
-          body: |
-            ## What is in the archive and how to unarchive it?
-            ## What are the commands to start and stop the application?
-            ## How to customize where the application logs are written?
-            ## How to “quickly” verify that the application is running?
-            ## Create a release with the archive triggered by a tag
-      - run: gh release create v1.0.1 --title "v1.0.1" \
-          --notes DEPLOY.md 2>/dev/null || echo "OK"
-      - name: Release Drafter
-        uses: release-drafter/release-drafter@v5.21.1
-      - name: Netlify Actions
-        uses: nwtgck/actions-netlify@v2.0.0
+            module4_task0/awesome-website.zip
+            module4_task0/DEPLOY.md
+          # body_path: module3_task3/DEPLOY.md
+
+      # Deploy a new site on Netlify
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.2
         with:
-          publish-dir: './module3_task5/dist'
-          production-branch: main
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "🚀 Deployed on"
-          publish-message: '🎉 Published on'
+          publish-dir: 'module4_task0/dist'
+          production-branch: master
+          github-token: ${{ secrets.REPO_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
           enable-pull-request-comment: true
           enable-commit-comment: true
           overwrites-pull-request-comment: true

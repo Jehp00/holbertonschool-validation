@@ -1,8 +1,9 @@
 # Implement the next steps for the actual Go-Hugo website's source code
+
 lint: ## Catch such errors without the need to compile or execute the application
 	@golangci-lint run ./*.go
 
-build: ## Generate the website from markdown and config files in the 'dist/' folder
+build: lint ## Generate the website from markdown and config files in the 'dist/' folder
 	@hugo
 	@go build -o awesome-api ./*.go
 
@@ -14,7 +15,7 @@ stop: ## Stop the application with the command kill
 
 clean: stop ## Cleanup the content of the 'dist/' folder
 	@rm -Rf dist/*
-	@rm -Rf awesome-api awesome.log || true
+	@rm -f awesome-api awesome.log || true
 
 test: ## Ensure that it behaves as expected
 	@echo "# Test 1:"

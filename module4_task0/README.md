@@ -1,21 +1,32 @@
 # Awesome Inc. website Docs
 
-"## Lifecycle"
-*clean: Cleanup the content
-*build: Generates the website from the markdown and configuration files"
-*post: creates a new blog post
-*help: hows commands usage information
-*lint: updated to lint the files README.md and DEPLOY.md
-*package: creates a file named awesome-website.zip
-*unit-tests:
-*integration-tests:
-*validate:
+Welcome to our site, please follow the next information in order to have a
+working website.
 
-"## Prerequisites"
-    GNU Make in version 3.81+
-    Go Hugo v0.80+
+## Prerequisites
 
-"## Workflow"
-    The workflow is executed into Ubuntu 18.04 environment
-    Required tools are installed prior to any make target
-    by executing the script setup.sh
+- Hugo v0.80+ must be used.
+- Usage of Git Submodules is prohibited.
+- Use the theme "ananke" for the website by following:
+`Note for non-git users` at the
+[Step 3](https://docs.edg.io/guides/sites_frameworks/getting_started/hugo).
+- The website is expected to be generated into ./dist folder but this folder
+should be **absent** from the repo.
+
+## Lifecycle
+
+- post
+- build
+- clean
+- package
+- lint
+- unit-tests
+- integration-tests
+- validate
+- help
+
+## Build Workflow
+
+- The workflow is executed into Ubuntu 18.04 environment
+- Required tools are installed prior to any `make` target, by executing the
+script `setup.sh`
