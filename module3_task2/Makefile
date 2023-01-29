@@ -1,29 +1,29 @@
-build:	## Generate the website from the markdown and configuration files in the directory dist/
-	hugo -s . -d dist/
+help: ## Show help command
+	@sed -ne '/@sed/!s/## //p' Makefile
 
-post:	## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME
-	hugo new posts/$(POST_NAME).md
-	sed -i 's/title: .*/title:"$(POST_TITLE)"/' content/posts/$(POST_NAME).md 
+build:  ## Create Website
+	@hugo
 
-clean:	## Cleanup the content of the directory dist/
-	rm -rf dist/
+clean:  ## Delete content of dist folder
+	@rm -rf dist/*
 
-help: Makefile ## Show this help usage
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+post:  ## Create a post
+	@hugo new ./content/posts/$(POST_NAME).md
+	@sed -i '/title:*/c\title: "$(POST_TITLE)"' ./content/posts/$(POST_NAME).md
 
-package:
-	hugo
-	zip awesome-website.zip awesome-api dist/ 
+package: ## zip website
+	@hugo
+	@zip awesome-website.zip ./dist
 
-lint:
-	markdownlint "*.md"
+lint: ## lint with markdown
+	@markdownlint README.md
+	@markdownlint DEPLOY.md
 
-unit-tests: ## run unit tests
-	@echo "all tests done"
+unit-tests: ## test file
 
-integration-tests: ## run integration-tests
-	@echo "all integration-tests done"
 
-validate: ## run validate
-	@echo "all validations done"
+integration-tests: ## integrate file
+
+
+validate: ## valide file
 

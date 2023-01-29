@@ -13,7 +13,7 @@ on:
 permissions: read-all
 
 jobs:
-  tags:
+  builds:
     name: jobs
     runs-on: ubuntu-18.04
 
@@ -54,4 +54,4 @@ jobs:
       - run: gh release create v1.0.1 --title "v1.0.1" \
           --notes DEPLOY.md 2>/dev/null || echo "OK"
       - name: Release Drafter
-        uses: release-drafter/release-drafter@v5.21.1 
+        uses: release-drafter/release-drafter@v5.21.1
